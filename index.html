@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CreatorConnect</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0f1115;
+      color: white;
+      font-family: system-ui, sans-serif;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+    }
+    button {
+      background: #1f2933;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      margin-left: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #374151;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+      gap: 16px;
+      padding: 40px;
+    }
+    .card {
+      background: #1a1f2b;
+      padding: 16px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>CreatorConnect</h1>
+  <div>
+    <button onclick="show('influencers')">Influencers</button>
+    <button onclick="show('brands')">Brands</button>
+    <button onclick="show('matches')">Matches</button>
+  </div>
+</header>
+
+<div id="influencers" class="grid"></div>
+<div id="brands" class="grid" style="display:none"></div>
+<div id="matches" class="grid" style="display:none"></div>
+
+<script>
+const influencers = [
+  {name:"Alex Tech", niche:"Gaming", followers:"82K"},
+  {name:"Luna Builds", niche:"Engineering", followers:"64K"},
+  {name:"Byte Bros", niche:"AI", followers:"120K"}
+];
+
+const brands = [
+  {name:"NovaGear", niche:"Hardware"},
+  {name:"Pulse AI", niche:"Software"},
+  {name:"StreamFuel", niche:"Gaming"}
+];
+
+let matches = [];
+
+function render() {
+  influencersDiv.innerHTML = influencers.map(i =>
+    card(i.name, i.niche + " • " + i.followers)).join("");
+
+  brandsDiv.innerHTML = brands.map(b =>
+    card(b.name, b.niche)).join("");
+
+  matchesDiv.innerHTML = matches.length
+    ? matches.map(m => card(m)).join("")
+    : "<p>No matches yet</p>";
+}
+
+function card(title, subtitle) {
+  return `
+    <div class="card">
+      <h3>${title}</h3>
+      <p>${subtitle}</p>
+      <button onclick="match('${title}')">Match</button>
+    </div>
+  `;
+}
+
+function match(name) {
+  matches.push(name);
+  render();
+  show("matches");
+}
+
+function show(tab) {
+  influencersDiv.style.display = "none";
+  brandsDiv.style.display = "none";
+  matchesDiv.style.display = "none";
+  document.getElementById(tab).style.display = "grid";
+}
+
+const influencersDiv = document.getElementById("influencers");
+const brandsDiv = document.getElementById("brands");
+const matchesDiv = document.getElementById("matches");
+
+render();
+</script>
+</body>
+</html>
